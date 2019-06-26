@@ -26,39 +26,35 @@ def get_prompt_amount(question, prompt_type):
                 break
     return amount
 
-# calculate the bill and print the results
 def calculate_bill(bill, tip, split):
-     
      if(split > 0):
-             owed_amount = (bill + ((tip / 100) * bill)) / split
-             print ('The amount you each owe is: $%s \n' % round(owed_amount,2))    
-
+                owed_amount = (bill + ((tip / 100) * bill)) / split
+                print ('The amount you each owe is: $%s \n' % round(owed_amount,2))    
      else:  
-             owed_amount = (bill + ((tip / 100) * bill))
-             print('The amount you owe is $%s \n' % round(owed_amount,2))
+                owed_amount = (bill + ((tip / 100) * bill))
+                print('The amount you owe is $%s \n' % round(owed_amount,2))
 
 # allow users to restart the app and calculate another bill when finished
 def restart_app():
         try:
                 run_again = input('Would you like to calculate another bill? \n Type [Y]es or [N]o \n')
-                
-                if(run_again.lower() == 'yes' or run_again.lower() == 'y'):
-                        application_start()
-                elif(run_again.lower() == 'no' or run_again.lower() == 'n'):
-                        print('\nThank you for using bill Caculator!') 
-                        exit()
-                else:
-                        print('Sorry, I did not understand that input.')
-                        restart_app()
         except (KeyboardInterrupt, SystemExit):
                 print("\nAn exit command was pressed... terminating program. Goodbye!")
+                exit() 
+        if(run_again.lower() == 'yes' or run_again.lower() == 'y'):
+                application_start()
+        elif(run_again.lower() == 'no' or run_again.lower() == 'n'):
+                print('\nThank you for using bill Caculator!') 
                 exit()
-
+        else:
+                print('Sorry, I did not understand that input.')
+                restart_app()
+                
 def application_start():
         # get our bill, tip and split amounts from our user input
         bill_amount = get_prompt_amount('\nWhat is your bill amount?', 'bill')
         tip_amount = get_prompt_amount('What percentage would you like to tip?', 'tip')
-        split_amount = get_prompt_amount('How many people are you splitting this bill with?', 'split')
+        split_amount = get_prompt_amount('How many people are you splitting this bill with? Enter 0 if none.', 'split')
 
         calculate_bill(bill_amount, tip_amount, split_amount)
 
