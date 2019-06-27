@@ -33,16 +33,16 @@ def calculate_bill(bill, tip, split):
      if(split > 1):
                 owed_amount = (bill + ((tip / 100) * bill)) / split
                 recent_bills.append(round(owed_amount,2))
-                print ('The amount you each owe is: $%s \n' % round(owed_amount,2))    
+                print ('\nThe amount you each owe is: $%s \n' % round(owed_amount,2))    
      else:  
                 owed_amount = (bill + ((tip / 100) * bill))
                 recent_bills.append(round(owed_amount,2))
-                print('The amount you owe is $%s \n' % round(owed_amount,2))
+                print('\nThe amount you owe is $%s \n' % round(owed_amount,2))
 
 # allow users to restart the app and calculate another bill when finished
 def restart_app():
         try:
-                run_again = input('Would you like to calculate another bill? \n Type [Y]es to continue || [N]o to Exit || [V]iew for recent bills \n')
+                run_again = input('\nWould you like to calculate another bill? \n Type [Y]es to continue || [N]o to Exit || [V]iew for recent bills \n')
         except (KeyboardInterrupt, SystemExit):
                 print("\nAn exit command was pressed... terminating program. Goodbye!")
                 exit() 
@@ -52,11 +52,10 @@ def restart_app():
                 print('\nThank you for using bill Caculator!') 
                 exit()
         elif(run_again.lower() in ['view', 'v', 'recent']):
-                for i in range(len(recent_bills)):
-                        if(i == 0):
-                                print('1. $%s' % (recent_bills[i]))
-                        else:
-                                print('%s. $%s' % (i, recent_bills[i]))
+                print('Recent bills: \n')
+                for value in recent_bills:
+                        print('$%s' % value)
+                restart_app()
         else:
                 print('Sorry, I did not understand that input.')
                 restart_app()
