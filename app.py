@@ -1,10 +1,13 @@
 print('Welcome to bill calculator!')
 
+# define list store users recently calculated bills
+recent_bills = []
+
 # define our prompt function to get the bill, tip and split amount from user input
 def get_prompt_amount(question, prompt_type):
     while True:
         try:    
-                amount = float(input('%s \n' % question.replace("!@#$%^&*()[]{};:,/<>?\\|`~-=_+", " ")))
+                amount = float(input('%s \n' % question))
         # exit application if keyobard or sys exit commands errors are recognized (i.e. ctr-c)
         except (KeyboardInterrupt, SystemExit):
                 print("\nAn exit command was pressed... terminating program. Goodbye!")
@@ -27,25 +30,33 @@ def get_prompt_amount(question, prompt_type):
     return amount
 
 def calculate_bill(bill, tip, split):
-     if(split > 0):
+     if(split > 1):
                 owed_amount = (bill + ((tip / 100) * bill)) / split
+                recent_bills.append(round(owed_amount,2))
                 print ('The amount you each owe is: $%s \n' % round(owed_amount,2))    
      else:  
                 owed_amount = (bill + ((tip / 100) * bill))
+                recent_bills.append(round(owed_amount,2))
                 print('The amount you owe is $%s \n' % round(owed_amount,2))
 
 # allow users to restart the app and calculate another bill when finished
 def restart_app():
         try:
-                run_again = input('Would you like to calculate another bill? \n Type [Y]es or [N]o \n')
+                run_again = input('Would you like to calculate another bill? \n Type [Y]es to continue || [N]o to Exit || [V]iew for recent bills \n')
         except (KeyboardInterrupt, SystemExit):
                 print("\nAn exit command was pressed... terminating program. Goodbye!")
                 exit() 
-        if(run_again.lower() == 'yes' or run_again.lower() == 'y'):
+        if(run_again.lower() in ['yes', 'y']):
                 application_start()
-        elif(run_again.lower() == 'no' or run_again.lower() == 'n'):
+        elif(run_again.lower() in ['no', 'n', 'e', 'exit', 'end'] ):
                 print('\nThank you for using bill Caculator!') 
                 exit()
+        elif(run_again.lower() in ['view', 'v', 'recent']):
+                for i in range(len(recent_bills)):
+                        if(i == 0):
+                                print('1. $%s' % (recent_bills[i]))
+                        else:
+                                print('%s. $%s' % (i, recent_bills[i]))
         else:
                 print('Sorry, I did not understand that input.')
                 restart_app()
