@@ -20,6 +20,7 @@ def get_prompt_amount(question, prompt_type):
             print(
                 'Sorry, I did not understand that %s number. Please try again.' % prompt_type)
             continue
+
         if amount < 0:
             print('Woops! Your %s amount must be higher than 0.' % prompt_type)
             continue
@@ -37,22 +38,24 @@ def get_prompt_amount(question, prompt_type):
 
 
 def calculate_bill(bill, tip, split):
+    def check_split(value):
+        if split > 1:
+            return value
+        else:
+            return 0
+
     if(split > 1):
         owed_amount = round((bill + ((tip / 100) * bill)) / split, 2)
-        recent_bills.append({
-            'bill': bill,
-            'tip': (tip / 100) * bill,
-            'split': split,
-            'total': owed_amount})
         print('\nThe amount you each owe is: $%s \n' % owed_amount)
     else:
         owed_amount = round(bill + ((tip / 100) * bill), 2)
-        recent_bills.append({
-            'bill': bill,
-            'tip': (tip / 100) * bill,
-            'split': 0,
-            'total': owed_amount})
         print('\nThe amount you owe is $%s \n' % owed_amount)
+
+    recent_bills.append({
+        'bill': round(bill),
+        'tip': round((tip / 100) * bill),
+        'split': check_split(split),
+        'total': owed_amount})
 
 
 # allow users to restart the app and calculate another bill when finished
